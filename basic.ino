@@ -22,12 +22,17 @@ void loop(){
 }
 
 void get_gps() {
-  while (ss.available()) 
+  float latitude = 1000.00;
+  float longitude = 1000.00;
+  
+  while ((latitude == 1000.00) || (longitude == 1000.00))
   {
-    int c = ss.read();
-    gps.encode(c);
+    while (ss.available()) 
+    {
+      int c = ss.read();
+      gps.encode(c);
+    }
+    gps.f_get_position(&latitude, &longitude, NULL);
   }
-  float latitude, longitude;
-  gps.f_get_position(&latitude, &longitude, NULL);
   gps_url = String("https://www.google.com/maps/search/?api=1&query=") + String(latitude,7) + "," + String(longitude,7);
 }
